@@ -1,0 +1,28 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block content %}
+
+<h3 style="margin:0 0 12px 0;">Mokėjimas nepavyko ❌</h3>
+
+<p style="color:#555; margin:0 0 10px 0;">
+Deja, mokėjimas už užsakymą <strong style="color:#c96f6f;">#{{ order.id }}</strong> nepavyko.
+</p>
+
+<p style="color:#555; margin:0 0 20px 0;">
+Galite pabandyti dar kartą užpildydami užsakymo formą.
+</p>
+
+<!-- BUTTON -->
+<p style="text-align:center; margin:20px 0;">
+  <a href="{{ retry_url }}"
+     style="background:#c96f6f; color:#fff; padding:12px 22px; text-decoration:none; border-radius:6px; font-weight:bold; display:inline-block;">
+     Grįžti į užsakymą
+  </a>
+</p>
+
+<!-- HELP TEXT -->
+<p style="color:#777; font-size:13px; margin-top:20px;">
+Jei problema kartojasi – susisiekite su mumis atsakydami į šį laišką.
+</p>
+
+{% endblock %}

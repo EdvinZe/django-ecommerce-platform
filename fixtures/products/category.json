@@ -1,0 +1,18 @@
+[
+    {
+        "model": "products.category",
+        "pk": 1,
+        "fields": {
+            "name": "braškes",
+            "slug": "braskes"
+        }
+    },
+    {
+        "model": "products.category",
+        "pk": 2,
+        "fields": {
+            "name": "uogienė",
+            "slug": "uogiene"
+        }
+    }
+]

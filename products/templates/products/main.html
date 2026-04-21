@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% csrf_token %}
+<section class="bg-img d-flex">
+  <div class="container hero-container">
+    <div class="row">
+      <div class="col-lg-6 hero-left">
+        <h1 class="hero-title">
+          Skonis, kuris <br> primena vaikystę
+        </h1>
+
+        <a href="{% url 'catalog' 'all' %}" class="btn-hero">
+          Pirkti
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="products-section mb-5">
+  <div class="container">
+    <div class="row justify-content-center g-5">
+
+      {% for product in products %}
+      <div class="col-12 col-md-4 d-flex justify-content-center">
+        <div class="product-mini {% if product.quantity <= 0 %}product-disabled{% endif %}">
+
+          <div class="product-mini-img">
+  
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        
+            {% if product.discount > 0 %}
+                <div class="product-badge">
+                    {{ product.discount|floatformat:0 }}%
+                </div>
+            {% endif %}
+
+            {% if product.quantity <= 0 %}
+              <div class="stock-overlay">
+              Nėra sandėlyje
+              </div>
+            {% endif %}
+        
+            <div class="product-overlay">
+        
+              <a href="{% url 'cart_add' %}"
+              class="overlay-btn add-to-cart
+              {% if product.quantity <= 0 %}btn-disabled{% endif %}"
+              data-product-id="{{ product.id }}">
+              {% if product.quantity <= 0 %}
+                Nėra sandėlyje
+              {% else %}
+                Į krepšelį
+              {% endif %}
+              </a>
+      
+              <a href="{{ product.get_absolute_url }}"
+                class="overlay-btn secondary">
+                  Plačiau
+              </a>
+          
+            </div>
+          </div>
+  
+          <div class="product-mini-info">
+            <div class="product-mini-title">{{ product.name }}</div>
+  
+            <div class="product-mini-price">
+              <span class="price-new">{{ product.price_discount }} € /{{ product.unit }}</span>
+  
+              {% if product.discount > 0 %}
+                <span class="price-old">{{ product.price }} € /{{ product.unit }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+
+      <div class="col-6 col-md-4 feature-item">
+        <i class="bi bi-heart-fill"></i>
+        <div class="feature-title">Be pesticidų</div>
+      </div>
+
+      <div class="col-6 col-md-4 feature-item">
+        
+        <div class="stars">
+          <i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+        </div>
+
+        <div class="feature-title">Patikrintas šviežumas</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

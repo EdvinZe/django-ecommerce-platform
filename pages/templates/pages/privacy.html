@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h1 class="mb-4">Privatumo politika</h1>
+
+    <p>
+        <strong>Paskutinis atnaujinimas:</strong> 
+        {{ site_settings.privacy_last_updated }}
+    </p>
+
+    <h4 class="mt-4">1. Kokius duomenis renkame</h4>
+    <ul>
+        <li>Vardą ir pavardę</li>
+        <li>El. pašto adresą</li>
+        <li>Telefono numerį</li>
+    </ul>
+
+    <h4 class="mt-4">2. Duomenų naudojimas</h4>
+    <p>Duomenys naudojami užsakymų vykdymui ir klientų aptarnavimui.</p>
+
+    <h4 class="mt-4">3. Trečiosios šalys</h4>
+    <p>
+        Mokėjimai apdorojami per Stripe.<br>
+        Pristatymas vykdomas per paštomatus.
+    </p>
+
+    <h4 class="mt-4">4. Kontaktai</h4>
+    <p>
+        El. paštas: {{ site_settings.privacy_email|default:site_settings.email }}
+    </p>
+
+</div>
+{% endblock %}

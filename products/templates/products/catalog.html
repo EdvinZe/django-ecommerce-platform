@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+{% load products_tags %}
+{% block content %}
+
+{% csrf_token %}
+<div class="py-5 mb-5">
+		<div class="container position-relative mt-2">
+			<div class="d-flex justify-content-between align-content-center">
+				<h2 class="catalog-title">MŪSŲ PRODUKCIJA</h2>
+				<div class="d-flex"> 
+					<div class="d-flex">
+						
+						<div class="dropdown">
+							<button class="catalog-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Filtras</button>
+							<div class="dropdown-menu catalog-dropdown">
+								<form action="" method="get">
+									
+									{% if category_slug and category_slug != 'all'%}
+										<input type="hidden" name="category" value="{{ category_slug }}">
+									{% endif %}
+									
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" name="on_sale" value="on"
+										{% if request.GET.on_sale == 'on' %}checked{% endif %}>
+										<label for="FlexCheckDefault" class="form-check-label">Tik su akcija</label>
+									</div>
+									
+									<p class="mx-3 mt-3">Rūšioti pagal</p>
+									
+									<div class="form-check">
+										<input type="radio" id="flexRadioDefault1" class="form-check-input" name="order_by" value="default"
+										{% if not request.GET.order_by %}checked{% endif %}>
+										<label class="form-check-label" for="flexRadioDefault1">Numatytąjį</label>
+									</div>
+					
+									<div class="form-check">
+										<input type="radio" id="flexRadioDefault2" class="form-check-input" name="order_by" value="-price"
+										{% if request.GET.order_by == '-price' %}checked{% endif %}>
+										<label class="form-check-label" for="flexRadioDefault2">Brangiausią</label>
+									</div>
+									
+									<div class="form-check">
+										<input type="radio" id="flexRadioDefault3" class="form-check-input" name="order_by" value="price"
+										{% if request.GET.order_by == 'price' %}checked{% endif %}>
+										<label class="form-check-label" for="flexRadioDefault3">Pigiausią</label>
+									</div>
+									
+									<button class="catalog-submit" type="submit">Patvirtinti</button>
+								</form>
+							</div>
+						</div>
+						
+
+						<div class="dropdown ms-4">
+							<button class="catalog-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Kategorijos
+							</button>
+							<ul class="dropdown-menu catalog-dropdown catalog-categories">
+								<li>
+									<a class="dropdown-item {% if request.GET.category == 'all' %}active{% endif %}" 
+									   href="{% url "catalog" 'all'%}">
+										Visa produkcija
+									</a>
+								</li>
+								{% for category in categories %}
+									{% if category.is_visible %}
+										<li>
+											<a class="dropdown-item {% if request.GET.category == category.slug %}active{% endif %}" 
+											href="{% url "catalog" category.slug %}">
+												{{ category.name }}
+											</a>
+										</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+						
+
+			
+					</div>
+				</div>		
+			</div>
+			<div class="row g-5 justify-content-center">
+				{% autoescape off %}
+				  {% if page_obj %}
+					{% for product in page_obj %}
+					  {% if product.is_visible %}
+						<div class="col-12 col-md-4 d-flex justify-content-center">
+							<div class="product-mini {% if product.quantity <= 0 %}product-disabled{% endif %}">
+								<div class="product-mini-img">
+						
+									<img src="{{ product.image.url }}" alt="{{ product.name }}">
+								
+									{% if product.discount > 0 %}
+										<div class="product-badge">
+											{{ product.discount|floatformat:0 }}%
+										</div>
+									{% endif %}
+
+									{% if product.quantity <= 0 %}
+										<div class="stock-overlay">
+										Nėra sandėlyje
+										</div>
+									{% endif %}
+								
+									<div class="product-overlay">
+								
+										<a href="{% url 'cart_add' %}"
+										class="overlay-btn add-to-cart
+										{% if product.quantity <= 0 %}btn-disabled{% endif %}"
+										data-product-id="{{ product.id }}">
+										{% if product.quantity <= 0 %}
+											Nėra sandėlyje
+										{% else %}
+											Į krepšelį
+										{% endif %}
+										</a>
+								
+										<a href="{{ product.get_absolute_url }}"
+										class="overlay-btn secondary">
+											Plačiau
+										</a>
+								
+									</div>
+								</div>
+						
+								<div class="product-mini-info">
+									<div class="product-mini-title">{{ product.name }}</div>
+						
+									<div class="product-mini-price">
+									<span class="price-new">{{ product.price_discount }} € /{{ product.unit }}</span>
+						
+									{% if product.discount > 0 %}
+										<span class="price-old">{{ product.price }} € /{{ product.unit }}</span>
+									{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					  {% endif %}
+					{% endfor %}
+				  {% else %}
+					<div style="height: 450px;">
+					</div>
+				  {% endif %}
+				{% endautoescape %}
+			  </div>
+		</div>
+	</div>
+</div>
+	{% if products %}
+		<ul class="pagination custom-pagination justify-content-center my-5">
+			{% if page_obj.has_previous %}
+			<li class="page-item">
+				<a class="page-link" href="?{% change_params page=page_obj.previous_page_number %}">«</a>
+				</li>
+			{% endif %}
+			
+			{% for num in page_obj.paginator.page_range %}
+			{% if page_obj.number == num %}
+			<li class="page-item active"><a class="page-link">{{ num }}</a></li>
+			{% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+				<li class="page-item"><a class="page-link" href="?{% change_params page=num %}">{{ num }}</a></li>
+			{% endif %}
+			{% endfor %}
+			
+			{% if page_obj.has_next %}
+			<li class="page-item">
+				<a class="page-link" href="?{% change_params page=page_obj.next_page_number %}">»</a>
+			</li>
+			{% endif %}
+		</ul>
+	{% endif %}
+	
+{% endblock content %}

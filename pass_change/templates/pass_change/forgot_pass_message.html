@@ -1,0 +1,15 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block content %}
+<p>Sveiki,</p>
+
+<p>Norėdami atstatyti slaptažodį, paspauskite nuorodą:</p>
+
+<p>
+    <a href="{% url 'password_reset_confirm' uidb64=uid token=token %}">
+        Atstatyti slaptažodį
+    </a>
+</p>
+
+<p>Jei tai buvote ne jūs – ignoruokite šį laišką.</p>
+{% endblock %}

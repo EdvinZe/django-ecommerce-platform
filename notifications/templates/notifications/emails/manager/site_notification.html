@@ -1,0 +1,30 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block content %}
+
+<h3 style="margin:0 0 12px 0;">Nauja žinutė iš kliento 📩</h3>
+
+<!-- CLIENT INFO -->
+<table width="100%" style="border:1px solid #eee; border-radius:6px; padding:15px;">
+  <tr>
+    <td style="padding:5px 0;"><strong>Vardas:</strong></td>
+    <td>{{ contact.name }}</td>
+  </tr>
+  <tr>
+    <td style="padding:5px 0;"><strong>El. paštas:</strong></td>
+    <td>{{ contact.email }}</td>
+  </tr>
+</table>
+
+<!-- MESSAGE -->
+<p style="margin:20px 0 10px 0;"><strong>Žinutė:</strong></p>
+
+<table width="100%" style="border:1px solid #eee; border-radius:6px;">
+  <tr>
+    <td style="padding:15px; color:#555;">
+      {{ contact.message }}
+    </td>
+  </tr>
+</table>
+
+{% endblock %}

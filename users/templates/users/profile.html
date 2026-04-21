@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="py-5 mb-5 bg-img">
+    <div class="bg-light container w-75 py-5 shadow-lg mb-5 mt-5 rounded contact-card">
+        <h2 class="col-md-12 text-black text-center">Profile</h2>
+        <form class="bg-light p-4 row" action="{% url "profile" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <div class="mb-3 d-flex flex-column align-items-center justify-content-center">
+                    {% if user.image %}
+                        <img src="{{user.image.url}}" class="mb-3 rounded-circle img-fluid" alt="profile photo">
+                    {% else %}
+                        <img src="{% static "img/profile.png" %}" class="mb-3 rounded-circle img-fluid" alt="profile photo">
+                    {% endif %}
+                    <p>profile photo</p>
+                    <input type="file" accept="image/*" class="form-control w-50" id="avatar" name="image">
+                    {% if form.image.errors %}
+                    <div class="text-danger">{{form.image.errors}}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="id_first_name" class="form-label">Vardas*</label>
+                    <input type="text" class="form-control" id="id_first_name" placeholder="Įrašykite savo vardą"
+                    name="first_name" value="{{form.first_name.value}}" required>
+                    {% if form.first_name.errors %}
+                    <div class="text-danger">{{form.first_name.errors}}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_last_name" class="form-label">Pavardė*</label>
+                    <input type="text" class="form-control" id="id_last_name" placeholder="Įrašykite savo Pavardę"
+                    name="last_name" value="{{form.last_name.value}}" required>
+                    {% if form.last_name.errors %}
+                    <div class="text-danger">{{form.last_name.errors}}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Naudotojo vardas*</label>
+                    <input type="text" class="form-control" id="id_username" placeholder="Įveskite savo naudotojo vardą"
+                    name="username" value="{{form.username.value}}" required>
+                    {% if form.username.errors %}
+                    <div class="text-danger">{{form.username.errors}}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_phone" class="form-label">Telefono numeris*</label>
+                    <input type="tel" class="form-control" id="id_phone" placeholder="Įrašykite savo telefono numerį +370 arba +0"
+                    name="phone" value="{{form.phone.value}}" required>
+                    {% if form.phone.errors %}
+                    <div class="text-danger">{{form.phone.errors}}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">e.paštas*</label>
+                    <input type="email" class="form-control" id="id_email" placeholder="Įrašykite savo e.paštą pvz: pavyzdys@mail.com"
+                    name="email" value="{{form.email.value}}" required>
+                    {% if form.email.errors %}
+                    <div class="text-danger">{{form.email.errors}}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex justify-content-start mt-5">
+                    <a href="{% url "change_password" %}" class="btn btn-link p-0 me-1">Slaptažodžio keitimas</a>
+                </div>
+
+                <div class="mt-5">
+                    <button type="submit" class="btn btn-primary">Patvirtinti</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

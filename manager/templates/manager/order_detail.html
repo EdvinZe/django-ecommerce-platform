@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="mgr mt-lg-5">
+  <div class="mgr-container mt-5">
+
+    <h2>📦 Užsakymas #{{ order.id }}</h2>
+
+    <div class="mgr-btn">
+      <a href="{% url 'manager_orders_list' %}?status={{ request.GET.status }}&delivery={{ request.GET.delivery }}" class="mgr-btn mgr-btn-secondary">
+        ← Atgal į užsakymus
+      </a>
+    </div>
+
+    <div class="mgr-box">
+      <strong>Status:</strong> {{ order.status }}<br>
+
+      <strong>Delivery method:</strong>
+      {% if order.delivery_method == "parcel" %}
+        Paštomatas
+      {% else %}
+        Atsiėmimas vietoje
+      {% endif %}
+      <br>
+
+      <strong>Payment:</strong> {{ order.payment_method }}
+    </div>
+
+    <div class="mgr-box">
+      <h3>🛒 Produktai</h3>
+
+      {% for item in order.orderitem_set.all %}
+        <div class="mgr-product-row">
+          {{ item.name }} × {{ item.quantity }}
+        </div>
+      {% empty %}
+        <p>Produktų nėra</p>
+      {% endfor %}
+    </div>
+
+    {% if order.delivery_method == "parcel" %}
+      <div class="mgr-box">
+        <h3>📍 Paštomatas</h3>
+
+        <p>
+          <strong>Company:</strong> {{ order.locker_company }}<br>
+          <strong>Locker:</strong> {{ order.parcel }}
+        </p>
+
+        {% if shipment %}
+          <img
+            src="{% url 'manager_order_qr' order.id %}"
+            alt="QR code"
+            class="mgr-qr"
+          >
+
+          <p>
+            <strong>Tracking number:</strong>
+            {{ shipment.tracking_number }}
+          </p>
+
+          <button
+            type="button"
+            class="mgr-btn mgr-btn-secondary"
+            onclick="window.print()"
+          >
+            🖨 Spausdinti
+          </button>
+        {% else %}
+          <p>Siunta dar nesukurta</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if order.status == "shipping_error" %}
+      <div class="mgr-box mgr-error-box">
+        <h3>❌ Siuntimo klaida</h3>
+
+        {% if order and order.error_message %}
+          <p>
+            <strong>Klaida:</strong><br>
+            {{ order.error_message }}
+          </p>
+        {% else %}
+          <p>Klaidos informacija nepateikta</p>
+        {% endif %}
+
+        <hr>
+
+        <p><strong>Ką daryti:</strong></p>
+        <ul>
+          <li>Patikrinti Omniva prisijungimo duomenis</li>
+          <li>Patikrinti ar pasirinktas teisingas paštomatas</li>
+          <li>Pabandyti siųsti dar kartą</li>
+        </ul>
+
+        <form method="post" action="{% url 'manager_retry_shipment' order.id %}">
+          {% csrf_token %}
+          <button class="mgr-btn mgr-btn-warning">
+            🔁 Bandyti dar kartą
+          </button>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if order.delivery_method != "parcel" %}
+      <div class="mgr-box">
+        <h3>📌 Rezervacija</h3>
+
+        <p>Klientas atsiims užsakymą vietoje.</p>
+        <p>{{order.phone_number_e164}}</p>
+
+        {% if order.payment_method == "cash" and order.status == "reserved" %}
+          <form
+            method="post"
+            action="{% url 'manager_cancel_order' order.id %}"
+            onsubmit="return confirm('Ar tikrai atšaukti užsakymą?')"
+          >
+            {% csrf_token %}
+            <button class="mgr-btn mgr-btn-danger">
+              ❌ Atšaukti užsakymą
+            </button>
+          </form>
+        {% endif %}
+
+    {% endif %}
+
+    {% if order.status != "completed" %}
+      {% if  order.status == "paid" and order.delivery_method != "parcel" or order.status == "packed" or order.status == "reserved"%}
+        <form method="post" action="{% url 'manager_mark_completed' order.id %}">
+          {% csrf_token %}
+          <button class="mgr-btn mgr-btn-success">
+            ✅ Pažymėti kaip atiduotą
+          </button>
+        </form>
+      {% endif %}
+
+      {% comment %} {% if order.delivery_method == "parcel" and order.status == "packed" %}
+        <form method="post" action="{% url 'manager_mark_completed' order.id %}">
+          {% csrf_token %}
+          <button class="mgr-btn mgr-btn-success">
+            📦 Pažymėti kaip įteiktą
+          </button>
+        </form>
+      {% endif %} {% endcomment %}
+    {% endif %}
+
+
+    {% if order.delivery_method == "parcel" and order.status == "registered" %}
+      <form method="post" action="{% url 'manager_mark_packed' order.id %}">
+        {% csrf_token %}
+        <button class="mgr-btn mgr-btn-primary">
+          📦 Pažymėti kaip supakuotą
+        </button>
+      </form>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock content %}
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/static/js/sw.js")
+  }
+</script>
+  

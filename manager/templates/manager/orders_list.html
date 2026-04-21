@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="mgr mt-lg-5">
+  <div class="mgr-container mt-5">
+
+    <div class="notify-box">
+
+      <div class="notify-title">Pranešimai</div>
+
+      <div class="notify-actions">
+        {% if push_enabled %}
+          <button id="unsubscribe-btn"
+                  type="button"
+                  class="notify-btn notify-btn--danger">
+            🔕 Išjungti pranešimus
+          </button>
+        {% else %}
+          <button id="subscribe-btn"
+                  type="button"
+                  class="notify-btn notify-btn--success">
+            🔔 Įjungti pranešimus
+          </button>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <div class="mgr-box">
+      <p class="text-muted mt-2" style="font-size:14px;">
+        Enable push notifications to receive real-time updates about new orders and status changes.
+        <br>
+        <span class="text-danger fw-semibold">Demo mode:</span>
+        notifications are disabled here, but this feature works in the full version.
+      </p>
+    </div>
+
+    <h2>📦 Užsakymai</h2>
+
+    <div class="mgr-active-filters">
+
+      {% if current_status %}
+        <a href="?delivery={{ current_delivery|default:'' }}"
+           class="mgr-filter-chip">
+          Status: {{ current_status }} ✕
+        </a>
+      {% endif %}
+    
+      {% if current_delivery %}
+        <a href="?status={{ current_status|default:'' }}"
+           class="mgr-filter-chip">
+          Delivery: {{ current_delivery }} ✕
+        </a>
+      {% endif %}
+    
+    </div>
+
+
+    <div class="mgr-filters">
+
+      <div class="mgr-filters-grid">
+    
+        <div class="mgr-filter-group">
+          <div class="mgr-filter-title">Pagal statusą</div>
+    
+          <form method="get" class="mgr-filter-inline">
+            <input type="hidden" name="delivery" value="{{ current_delivery|default:'' }}">
+    
+            <button type="submit" name="status" value=""
+              class="mgr-filter-btn {% if not current_status %}active{% endif %}">
+              Visi
+            </button>
+    
+            <button type="submit" name="status" value="paid"
+              class="mgr-filter-btn {% if current_status == 'paid' %}active{% endif %}">
+              🟢 Apmokėti
+            </button>
+
+            {% comment %} <button type="submit" name="registered" value="registered"
+              class="mgr-filter-btn {% if current_status == 'registered' %}active{% endif %}">
+              📄 Registruota siunta
+            </button> {% endcomment %}
+    
+            <button type="submit" name="status" value="packed"
+              class="mgr-filter-btn {% if current_status == 'packed' %}active{% endif %}">
+              📦 Supakuoti
+            </button>
+    
+            <button type="submit" name="status" value="completed"
+              class="mgr-filter-btn {% if current_status == 'completed' %}active{% endif %}">
+              ✅ Įvykdyti
+            </button>
+
+            <button type="submit" name="status" value="shipping_error"
+              class="mgr-filter-btn {% if current_status == 'shipping_error' %}active{% endif %}">
+              ❌ Klaida (siuntimas)
+            </button>
+
+          </form>
+        </div>
+    
+    
+        <div class="mgr-filter-group">
+          <div class="mgr-filter-title">Pagal pristatymą</div>
+    
+          <form method="get" class="mgr-filter-inline">
+            <input type="hidden" name="status" value="{{ current_status|default:'' }}">
+    
+            <button type="submit" name="delivery" value=""
+              class="mgr-filter-btn {% if not current_delivery %}active{% endif %}">
+              Visi
+            </button>
+    
+            <button type="submit" name="delivery" value="pickup"
+              class="mgr-filter-btn {% if current_delivery == 'pickup' %}active{% endif %}">
+              🏪 Atsiims
+            </button>
+    
+            <button type="submit" name="delivery" value="parcel"
+              class="mgr-filter-btn {% if current_delivery == 'parcel' %}active{% endif %}">
+              📦 Paštomatas
+            </button>
+          </form>
+        </div>
+    
+      </div>
+    </div>
+    
+    
+
+    {% for order in orders %}
+      <div class="mgr-order-card">
+        <a href="{% url 'manager_order_detail' order.id %}?status={{ current_status }}&delivery={{ current_delivery }}" class="mgr-order-link">
+          <div class="mgr-order-id">#{{ order.id }}</div>
+          <div class="mgr-order-status">{{ order.status }}</div>
+          <div>{{ order.delivery_provider }}</div>
+        </a>
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+<script>
+    window.VAPID_PUBLIC_KEY = "{{ VAPID_PUBLIC_KEY }}";
+</script>
+
+<script src="{% static 'js/push.js' %}"></script>
+{% endblock %}
+
+

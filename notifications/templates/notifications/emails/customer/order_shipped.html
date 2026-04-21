@@ -1,0 +1,38 @@
+{% extends "notifications/emails/base.html" %}
+
+{% block content %}
+
+<h3 style="margin:0 0 12px 0;">Užsakymas išsiųstas 📦</h3>
+
+<p style="color:#555; margin:0 0 10px 0;">
+Jūsų užsakymas <strong style="color:#c96f6f;">#{{ order.id }}</strong> išsiųstas.
+</p>
+
+<p style="color:#555; margin:0 0 20px 0;">
+Galite sekti siuntos būseną naudodami žemiau pateiktą nuorodą.
+</p>
+
+<!-- TRACKING BOX -->
+<table width="100%" style="border:1px solid #eee; border-radius:8px;">
+  <tr>
+    <td style="padding:15px;">
+      <p style="margin:0;"><strong>Tracking kodas:</strong> {{ tracking_code }}</p>
+    </td>
+  </tr>
+</table>
+
+<!-- BUTTON -->
+{% if tracking_url %}
+<p style="text-align:center; margin:20px 0;">
+  <a href="{{ tracking_url }}"
+     style="background:#c96f6f; color:#fff; padding:12px 22px; text-decoration:none; border-radius:6px; font-weight:bold; display:inline-block;">
+     Sekti siuntą
+  </a>
+</p>
+{% endif %}
+
+<p style="color:#777; font-size:13px; margin-top:20px;">
+Jei turite klausimų – atsakykite į šį laišką.
+</p>
+
+{% endblock %}

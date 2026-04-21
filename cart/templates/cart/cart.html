@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+{% load carts_tags %}
+
+{% block content %}
+
+<div class="bg-img ">
+    <div class="container-fluid row">
+      <!-- left accordion -->
+
+      <div class="col-md-6 mb-4">
+        <div class="accordion orders-main" id="leftAccordion">
+          <div class="accordion-item order-card">
+            <h2 class="accordion-header" id="headingLeft1">
+              <button class="accordion-button order-header"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseLeft1"
+                aria-expanded="false"
+                aria-controls="collapseLeft1">
+                <span class="orders-title">
+                  Jūsų užsakymas
+                </span>
+              </button>
+            </h2>
+            <div id="collapseLeft1"
+                 class="accordion-collapse collapse show"
+                 aria-labelledby="headingLeft1"
+                 data-bs-parent="#leftAccordion">
+              <div class="accordion-body order-body">
+                <div id="cart-items-container">
+      
+                  {% include "cart/included_cart.html" %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- right accordion -->
+      <div class="col-md-6 mb-4">
+      {% if user.is_authenticated %}
+        <div class="accordion orders-main" id="rightAccordion">
+
+          <div class="accordion-item orders-wrapper">
+        
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed orders-title"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseRight1">
+        
+                Užsakymų istorija
+        
+              </button>
+            </h2>
+        
+            <div id="collapseRight1"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#rightAccordion">
+        
+              <div class="accordion-body">
+        
+              {% if not orders %}
+        
+                <div class="orders-empty">
+                  Nėra užsakymų
+                </div>
+        
+              {% else %}
+        
+              <div class="accordion orders-list" id="ordersAccordion">
+        
+              {% for item in orders %}
+        
+                <div class="accordion-item order-card">
+        
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed order-header"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#orderCollapse{{item.id}}">
+
+                        <span class="order-title">
+                            Užsakymas #{{item.id}}
+                        </span>
+
+                        <span class="order-sum">
+                            €{{item.total_price}}
+                        </span>
+
+                    </button>
+        
+                  </h2>
+        
+        
+                  <div id="orderCollapse{{item.id}}"
+                       class="accordion-collapse collapse"
+                       data-bs-parent="#ordersAccordion">
+        
+                    <div class="accordion-body order-body">
+        
+        
+                      <div class="order-status-row">
+        
+                        <span>Statusas</span>
+        
+                        <span class="order-status-badge">
+                          {{item.status}}
+                        </span>
+        
+                      </div>
+        
+        
+                      <hr>
+        
+        
+                      {% for orderitem in item.orderitem_set.all %}
+        
+                      <div class="order-row">
+        
+                        <div class="order-product">
+                          {{orderitem.product}}
+                        </div>
+        
+                        <div class="order-qty">
+                          {{orderitem.quantity}} ({{orderitem.product.unit}})
+                        </div>
+        
+                        <div class="order-unit">
+                          €{{orderitem.product.price_discount}} / {{orderitem.product.unit}}
+                        </div>
+        
+                        <div class="order-total">
+                          €{{orderitem.products_price}}
+                        </div>
+        
+                      </div>
+        
+                      {% endfor %}
+        
+        
+                      <hr>
+        
+        
+                      <div class="order-total-row">
+        
+                        <span>Viso:</span>
+        
+                        <span class="order-total-price">
+                          €{{item.total_price}}
+                        </span>
+        
+                      </div>
+        
+                    </div>
+        
+                  </div>
+        
+                </div>
+        
+              {% endfor %}
+        
+              </div>
+        
+              {% endif %}
+        
+              </div>
+        
+            </div>
+        
+          </div>
+        
+        </div>
+      {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}

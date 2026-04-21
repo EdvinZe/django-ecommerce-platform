@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="contact-page">
+
+  <div class="container">
+
+    <h1 class="contact-title text-center">KONTAKTAI</h1>
+
+    <div class="row g-5 align-items-start">
+
+      <div class="col-lg-6">
+        <h3 class="contact-subtitle">Bendra informacija</h3>
+
+        <div class="contact-card">
+
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <strong>Adresas</strong>
+              <p>{{ site_settings.address }} {{ site_settings.city }} {{ site_settings.country }}</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <strong>Telefonas</strong>
+              <p>{{ site_settings.phone }}</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <strong>Email</strong>
+              <p>{{ site_settings.email }}</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">🕒</div>
+            <div>
+              <strong>Darbo laikas</strong>
+              <p>{{ site_settings.working_hours }}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="col-lg-6">
+        <h3 class="contact-subtitle">Susisiekite su mumis</h3>
+        <div class="contact-card">
+
+          <form method="POST">
+            {% csrf_token %}
+        
+            <div class="mb-3">
+              <input
+                type="text"
+                class="contact-input"
+                id="id_name"
+                name="name"
+                value="{% if user.is_authenticated %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ form.name.value|default:'' }}{% endif %}"
+                placeholder="Jūsų vardas"
+                required
+              >
+              {% if form.name.errors %}
+                <div class="text-danger">
+                  {{ form.name.errors }}
+                </div>
+              {% endif %}
+            </div>
+        
+            <div class="mb-3">
+              <input
+                type="email"
+                class="contact-input"
+                id="id_email"
+                name="email"
+                value="{% if user.is_authenticated %}{{ user.email }}{% else %}{{ form.email.value|default:'' }}{% endif %}"
+                placeholder="Jūsų el. paštas"
+                required
+              >
+              {% if form.email.errors %}
+                <div class="text-danger">
+                  {{ form.email.errors }}
+                </div>
+              {% endif %}
+            </div>
+        
+            <div class="mb-3">
+              <textarea
+                class="contact-input"
+                id="id_message"
+                name="message"
+                rows="4"
+                placeholder="Jūsų žinutė"
+                required
+              >{{ form.message.value|default:'' }}</textarea>
+        
+              {% if form.message.errors %}
+                <div class="text-danger">
+                  {{ form.message.errors }}
+                </div>
+              {% endif %}
+            </div>
+        
+            <button type="submit" class="contact-btn">
+              Siųsti žinutę
+            </button>
+        
+          </form>
+        
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,163 @@
+{% block included_cart %}
+
+{% if not request.resolver_match.url_name == "order_form" %}
+  {% csrf_token %}
+
+  {% for cart in carts %}
+    <div class="cart-row-modern d-flex align-items-center justify-content-between">
+
+      <!-- PRODUCT -->
+      <div class="cart-product-modern d-flex align-items-center">
+        <img src="{% if cart.product.image %}{{ cart.product.image.url }}{% endif %}" class="cart-img-modern" alt="{{ cart.product.name }}">
+
+        <div class="cart-title-modern">
+          <div class="cart-name-modern">{{ cart.product.name }}</div>
+
+          <div class="cart-stock-modern">
+            {% if cart.product.quantity > 0 %}
+              <span class="dot-ok"></span> Yra sandėlyje
+            {% else %}
+              <span class="dot-no"></span> Nėra sandėlyje
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- REMOVE (JS keeps remove-from-cart) -->
+       {% if cart.product.is_service != True %}
+       <button
+         class="btn btn-light remove-from-cart cart-remove-modern"
+         type="button"
+         href="{% url "cart_remove" %}"
+         data-cart-id="{{ cart.id }}">
+         ×
+       </button>
+       {% else %}
+       <button
+         class="btn btn-light cart-remove-modern"
+         type="button"
+         data-cart-id="{{ cart.id }}">
+         ×
+       </button>
+       {% endif %}
+
+      <!-- QUANTITY (JS keeps input-group, decrement, increment, number) -->
+      <div class="input-group cart-quantity-modern">
+        <button class="btn btn-primary decrement"
+                type="button"
+                data-cart-id="{{ cart.id }}"
+                data-cart-change-url="{% url "cart_change" %}">
+          -
+        </button>
+
+        <input type="text"
+               class="form-control text-center number"
+               value="{{ cart.quantity }}"
+               readonly autocomplete="off">
+
+        <button class="btn btn-primary increment"
+                type="button"
+                data-cart-id="{{ cart.id }}"
+                data-cart-change-url="{% url "cart_change" %}">
+          +
+        </button>
+      </div>
+
+      <!-- UNIT PRICE -->
+      {% comment %} <div class="cart-price-modern">
+        {{ cart.product.price_discount }}€ 
+        / {{ cart.product.unit }}
+      </div> {% endcomment %}
+
+      <div class="cart-price-modern">
+              {{ cart.product.price_discount }} €
+          <div class="price-unit">
+              / {{ cart.product.unit }}
+          </div>
+      </div>
+
+      <!-- TOTAL -->
+      <div class="cart-total-modern">
+        €{{ cart.products_price }}
+      </div>
+
+    </div>
+  {% endfor %}
+
+  <hr class="cart-divider">
+
+  <!-- SUMMARY -->
+  <div class="cart-summary-modern d-flex justify-content-between align-items-center">
+    <div class="cart-summary-left">
+      Viso: <strong id="products-in-cart-count">{{ carts.total_quantity }}</strong> {{carts.products_unit}}
+       {% if carts.total_quantity == 1 %}
+        {{ carts.products_unit }}
+      {% else %}
+        {{ carts.products_unit_plural }}
+      {% endif %}
+       užsakymui
+    </div>
+
+    <div class="cart-summary-price">
+      {{ carts.total_price }}€
+    </div>
+  </div>
+
+  <!-- CHECKOUT -->
+  <div class="cart-checkout-modern d-flex justify-content-end">
+    <a class="btn btn-primary btn-lg" href="{% url "order_form" %}">
+      Padaryti užsakymą
+    </a>
+  </div>
+
+{% endif %}
+
+
+{% if request.resolver_match.url_name == "order_form" %}
+  <div id="cartFrom">
+
+    {% for cart in carts %}
+    <div class="order-cart-row">
+
+      <div class="order-cart-left">
+        <div class="order-cart-image">
+          <img src="{% if cart.product.image %}{{ cart.product.image.url }}{% endif %}" alt="{{ cart.product.name }}">
+        </div>
+    
+        <div class="order-cart-info">
+          <div class="order-cart-title">
+            {{ cart.product.name }}
+          </div>
+        </div>
+      </div>
+    
+      <div class="order-cart-middle">
+        <div class="order-cart-quantity">
+          <input type="text" value="{{ cart.quantity }}" readonly>
+        </div>
+    
+        <div class="order-cart-unit-price">
+          {{ cart.product.price_discount }}€ / vnt
+        </div>
+      </div>
+    
+      <div class="order-cart-right">
+        €{{ cart.products_price }}
+      </div>
+      
+    </div>
+    {% endfor %}
+
+    <hr class="cart-divider">
+
+    <div class="cart-summary-modern d-flex justify-content-between align-items-center">
+      <strong>Viso:</strong>
+      <div class="cart-summary-price">{{ carts.total_price }}€</div>
+    </div>
+
+    <hr class="cart-divider">
+
+  </div>
+{% endif %}
+
+{% endblock included_cart %}

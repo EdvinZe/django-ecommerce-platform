@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="about-section">
+  <div class="container">
+
+    <h2 class="about-label">Apie mus</h2>
+
+    <div class="row align-items-center">
+
+      <div class="col-md-6 about-text">
+
+        <h1 class="about-title">
+          Mes tikime, kad nuoširdus rūpestis duoda saldžiausią derlių.
+        </h1>
+
+        <p class="about-description">
+          Esame šeimos ūkis, kuris jau daugiau nei 10 metų su meile augina braškių daigus.
+          Mūsų tikslas – pasiūlyti Jums tik aukščiausios kokybės daigus,
+          kad džiaugtumėtės saldžiu ir gausiu derliumi.
+        </p>
+
+      </div>
+
+      <div class="col-md-6">
+        <div class="about-image-wrapper">
+          <div class="about-hero">
+
+            {% if main_image %}
+                <img src="{{ main_image.image.url }}"
+                    alt="{{ main_image.title|default:'Braškės' }}">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="about-gallery-section">
+  <div class="container">
+
+    <h5 class="gallery-title">MŪSŲ SODŲ GALERIJA:</h5>
+
+    <div class="swiper aboutSwiper">
+
+      <div class="swiper-wrapper">
+
+        {% for img in gallery_images %}
+            <div class="swiper-slide">
+              <div class="gallery-item">
+                <img src="{{ img.image.url }}" alt="{{ img.title }}">
+              </div>
+            </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="gallery-controls container justify-content-center align-items-center">
+
+        <div class="gallery-prev-inline"></div>
+    
+        <div class="swiper-pagination gallery-pagination"></div>
+    
+        <div class="gallery-next-inline"></div>
+    
+    </div>
+
+    </div>
+
+  </div>
+</section>
+  
+{% endblock content %}
+

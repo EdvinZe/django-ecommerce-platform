@@ -1,0 +1,243 @@
+ .nav-bg-color {
+    background-color: #ffffff;
+    opacity: 0.90;
+}
+
+.nav-link {
+    color: #ff0000;
+    text-shadow: -0.8px -0.8px 0 #ff0000, 0.8px -0.8px 0 #ff0000, -0.8px 0.8px 0 #ff0000, 0.8px 0.8px 0 #ff0000;
+    text-decoration: none;
+    padding: 4px 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+    font-size: 20px;
+    word-spacing: 2px;
+} 
+/* ===== TOP BAR ===== */
+
+.custom-topbar {
+  background: #f27f7f;
+  padding: 18px 0;
+}
+
+.logo-circle {
+  width: 28px;
+  height: 28px;
+  background: #7a0019;
+  border-radius: 50%;
+}
+
+.top-link {
+  color: #5a1a1a;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.3s ease;
+}
+
+.top-link:hover {
+  opacity: 0.7;
+}
+
+.icon-link {
+  color: #5a1a1a;
+  font-size: 22px;
+  transition: 0.3s ease;
+}
+
+.icon-link:hover {
+  opacity: 0.7;
+}
+
+
+/* 
+.nav-link:hover {
+    background-color: #64c47d;
+    text-decoration: #c60d2f;
+} */
+
+.title-words {
+    top: 10%;
+    left: 5%;
+    color: #f7f7f7;
+}
+
+.short-desc {
+    right: 10%;
+    top: 10%;
+}
+
+.title-line {
+    height: 5px;
+    background-color: black; 
+    border: none; 
+    margin: 8px 0;
+}
+
+.title-devese {
+    max-width: 450px;
+}
+
+.bg-img {
+    background-image: url('../img/new_bg_img.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+}
+
+.my-dropdown .dropdown-item:hover {
+    color: #212529;
+    background-color: #2e3439;
+}
+
+/* ===== ROOT ===== */
+.mgr {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f8f8f8;
+    padding: 12px;
+  }
+  
+  /* ===== layout ===== */
+  .mgr-container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  
+  /* ===== boxes ===== */
+  .mgr-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  
+  /* ===== order list ===== */
+  .mgr-order-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: #fff;
+  }
+  
+  .mgr-order-link {
+    text-decoration: none;
+    color: #000;
+    display: block;
+  }
+  
+  .mgr-order-id {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .mgr-order-status {
+    margin-top: 4px;
+  }
+  
+  /* ===== filters ===== */
+  .mgr-filters form button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #eee;
+  }
+  
+  /* ===== buttons ===== */
+  .mgr-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .mgr-btn-primary {
+    background: #007bff;
+    color: #fff;
+  }
+  
+  .mgr-btn-secondary {
+    background: #eee;
+    color: #000;
+  }
+  
+  /* ===== products ===== */
+  .mgr-product-row {
+    padding: 6px 0;
+    border-bottom: 1px dashed #ddd;
+  }
+  
+  .mgr-product-row:last-child {
+    border-bottom: none;
+  }
+  
+  /* ===== qr ===== */
+  .mgr-qr {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 12px auto;
+    border: 1px solid #ddd;
+    padding: 8px;
+    background: #fff;
+  }
+
+  .mgr-filters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .mgr-filter-group {
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+  }
+  
+  .mgr-filter-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .mgr-filter-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .mgr-filter-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .mgr-active-filters {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .mgr-filter-chip {
+    background: #f1f1f1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+  }
+  
+  .mgr-filter-chip:hover {
+    background: #e3a9a9;
+    color: #5a1a1a;
+  }

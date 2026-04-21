@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0; padding:0; background:#f9f5f5; font-family:Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td align="center">
+
+<!-- CONTAINER -->
+<table width="520" style="background:#ffffff; margin:20px; border-radius:12px; overflow:hidden;">
+
+  <!-- HEADER -->
+  <tr>
+    <td style="padding:25px; text-align:center; 
+               background:linear-gradient(180deg, #dba3a3, #c96f6f); 
+               color:#fff;">
+      <h2 style="margin:0;">{{ site_settings.company_name }}</h2>
+    </td>
+  </tr>
+
+  <!-- CONTENT -->
+  <tr>
+    <td style="padding:25px;">
+      {% block content %}
+      {% endblock %}
+    </td>
+  </tr>
+
+  <!-- FOOTER -->
+  <tr>
+    <td style="padding:20px; text-align:center; font-size:12px; color:#777; border-top:1px solid #eee;">
+      <p>&copy; {% now "Y" %} {{ site_settings.company_name }}</p>
+    </td>
+  </tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shipment {{ shipment.tracking_number }}</title>
+</head>
+<body>
+    <h2>Shipment</h2>
+
+    <p><strong>Provider:</strong> {{ shipment.provider }}</p>
+    <p><strong>Order ID:</strong> {{ shipment.order.id }}</p>
+    <p><strong>Barcode:</strong> {{ shipment.tracking_number }}</p>
+
+    <hr>
+
+    <h3>{{ shipment.tracking_number }}</h3>
+
+    <hr>
+
+    <img
+    src="{% url 'manager_order_qr' shipment.order.id %}"
+    alt="QR code"
+    class="mgr-qr"
+     >
+
+</body>
+</html>

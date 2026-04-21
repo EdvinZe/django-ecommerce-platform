@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h1 class="mb-4">Taisyklės ir sąlygos</h1>
+
+    <p>
+        <strong>Paskutinis atnaujinimas:</strong> 
+        {{ site_settings.terms_last_updated }}
+    </p>
+
+    <h4 class="mt-4">1. Bendrosios nuostatos</h4>
+    <p>
+        Ši internetinė parduotuvė priklauso 
+        <strong>{{ site_settings.company_name }}</strong>.
+        Naudodamiesi svetaine jūs sutinkate su šiomis taisyklėmis.
+    </p>
+
+    <h4 class="mt-4">2. Užsakymų pateikimas</h4>
+    <p>Užsakymas laikomas patvirtintu tik po sėkmingo apmokėjimo.</p>
+
+    <h4 class="mt-4">3. Pristatymas</h4>
+    <p>
+        Pristatymas vykdomas per trečiųjų šalių paslaugų teikėjus 
+        (pvz., paštomatus). Mes neatsakome už galimus vėlavimus.
+    </p>
+
+    <h4 class="mt-4">4. Atsakomybė</h4>
+    <p>
+        Mes stengiamės užtikrinti teisingą informaciją, tačiau 
+        neatsakome už galimas klaidas.
+    </p>
+
+    <h4 class="mt-4">5. Kontaktai</h4>
+    <p>
+        El. paštas: {{ site_settings.email }}<br>
+        Telefonas: {{ site_settings.phone }}
+    </p>
+
+</div>
+{% endblock %}

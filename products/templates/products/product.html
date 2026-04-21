@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="product-page container">
+
+  <div class="row align-items-center">
+
+    <div class="col-lg-6 position-relative">
+      <img src="{{ product.image.url }}" 
+           class="product-main-img"
+           alt="{{ product.name }}">
+
+      {% if product.quantity <= 0 %}
+        <div class="stock-overlay-page">
+          Nėra produkto sandėlyje
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="col-lg-6 product-info-block">
+
+      <h2 class="product-title">{{ product.name }}</h2>
+
+      <div class="product-price-row">
+          <span class="price-main">{{ product.price_discount }} € /{{ product.unit }}</span>
+          {% if product.discount > 0 %}
+            <span class="price-old">{{ product.price }} € /{{ product.unit }}</span>
+          {% endif %}
+      </div>
+
+      {% if product.quantity > 0 %}
+        {% csrf_token %}
+        <a href="{% url 'cart_add' %}"
+           class="btn-product add-to-cart"
+           data-product-id="{{ product.id }}">
+           Į krepšelį
+        </a>
+      {% endif %}
+
+      <div class="delivery-box">
+          <p>Pristatome visoje Lietuvoje</p>
+          <p>Galite atsiimti vietoje!</p>
+          {% if site_settings.address and site_settings.city %}
+            <p>Adresas: {{ site_settings.address }}, {{ site_settings.city }}</p>
+          {% endif %}
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="product-description-block">
+      {{ product.long_description }}
+  </div>
+
+</div>
+
+
+<div class="related-section">
+  <h3 class="related-title text-center">ĮVAIRUMUI</h3>
+
+  <div class="row g-4 justify-content-center">
+
+    {% for product in related_products %}
+      {% if product.is_visible %}
+        <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+
+          <div class="product-mini {% if product.quantity <= 0 %}product-disabled{% endif %}">
+
+            <div class="product-mini-img">
+
+              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+
+              {% if product.discount > 0 %}
+                <div class="product-badge">
+                  {{ product.discount|floatformat:0 }}%
+                </div>
+              {% endif %}
+
+              {% if product.quantity <= 0 %}
+                <div class="stock-overlay">Nėra sandėlyje</div>
+              {% endif %}
+
+              <div class="product-overlay">
+
+                <a href="{% url 'cart_add' %}"
+                   class="overlay-btn add-to-cart {% if product.quantity <= 0 %}btn-disabled{% endif %}"
+                   data-product-id="{{ product.id }}">
+                  {% if product.quantity <= 0 %}
+                    Nėra sandėlyje
+                  {% else %}
+                    Į krepšelį
+                  {% endif %}
+                </a>
+
+                <a href="{{ product.get_absolute_url }}"
+                   class="overlay-btn secondary">
+                  Plačiau
+                </a>
+
+              </div>
+            </div>
+
+            <div class="product-mini-info">
+              <div class="product-mini-title">{{ product.name }}</div>
+
+              <div class="product-mini-price">
+                <span class="price-new">{{ product.price_discount }} €</span>
+
+                {% if product.discount > 0 %}
+                  <span class="price-old">{{ product.price }} €</span>
+                {% endif %}
+
+                <span>{{ product.unit }}</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,87 @@
+[
+    {
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "category": 1,
+            "name": "Test_pirmas_1",
+            "price": "6.00",
+            "discount": "10.00",
+            "short_description": "Geras productas",
+            "long_description": "Geras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productasGeras productas",
+            "slug": "test_pirmas_1",
+            "quantity": 5,
+            "image": "products/strawwberies-exaple_CXJaRIc.jpg",
+            "image2": "products/strawwberies-exaple_CXJaRIc_BveokeU.jpg",
+            "image3": "products/strawwberies-exaple_CXJaRIc_n3sQoZx.jpg"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "category": 1,
+            "name": "Test_antras_2",
+            "price": "10.00",
+            "discount": "5.00",
+            "short_description": "Geras antras productas",
+            "long_description": "Geras antras productaasGeras antras productaasGeras antras productaasGeras antras productaasGeras antras productaas",
+            "slug": "test_antras_2",
+            "quantity": 6,
+            "image": "products/strawberries_1400x1000.jpg.webp",
+            "image2": "",
+            "image3": ""
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 3,
+        "fields": {
+            "category": 1,
+            "name": "Test_trečias-3ĄČĘ",
+            "price": "15.00",
+            "discount": "0.00",
+            "short_description": "Test_trečias-3ĄČĘTest_trečias-3ĄČĘTest_trečias-3ĄČ",
+            "long_description": "Test_trečias-3ĄČĘTest_trečias-3ĄČĘTest_trečias-3ĄČĘTest_trečias-3ĄČĘ",
+            "slug": "test_trecias-3ace",
+            "quantity": 8,
+            "image": "products/strawwberies_bg_V1gN7Kc.jpg",
+            "image2": "",
+            "image3": ""
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 4,
+        "fields": {
+            "category": 1,
+            "name": "4_ketvirtas-productas@@",
+            "price": "40.00",
+            "discount": "50.00",
+            "short_description": "4_ketvirtas-productas@@",
+            "long_description": "4_ketvirtas-productas@@4_ketvirtas-productas@@4_ketvirtas-productas@@4_ketvirtas-productas@@4_ketvirtas-productas@@4_ketvirtas-productas@@",
+            "slug": "4_ketvirtas-productas",
+            "quantity": 8,
+            "image": "products/braske-fragaria-ciflorette-labai-ankstyva_mEfC8t0.jpg",
+            "image2": "",
+            "image3": ""
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 5,
+        "fields": {
+            "category": 2,
+            "name": "uogiene_1_yes",
+            "price": "20.00",
+            "discount": "50.00",
+            "short_description": "Geras uogienie productas",
+            "long_description": "Geras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productasGeras uogienie productas",
+            "slug": "uogiene_1_yes",
+            "quantity": 50,
+            "image": "products/profile_8uougcZ.png",
+            "image2": "",
+            "image3": ""
+        }
+    }
+]

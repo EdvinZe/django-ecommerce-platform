@@ -1,6 +1,6 @@
 import logging
 from django.contrib import auth, messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from cart.models import Cart
@@ -89,12 +89,17 @@ def logout(request):
     return redirect('main')
 
 
-class MyPasswordChangeView(LoginRequiredMixin ,PasswordChangeView):
+class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'users/password_change.html'
     success_url = reverse_lazy('main')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_manager:
+            messages.warning(request, "Demo admin vartotojui negalima keisti slaptažodžio")
+            return redirect('main')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Slaptažodžio keitimas'
         return context
-    

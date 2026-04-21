@@ -183,7 +183,6 @@ TIME_ZONE = "Europe/Vilnius"
 
 LANGUAGES = [
     ("lt", _("Lithuanian")),
-    ("en", _("English")),
 ]
 
 USE_I18N = True

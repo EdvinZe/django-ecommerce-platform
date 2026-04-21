@@ -4,6 +4,8 @@ import os
 from dotenv import load_dotenv
 from django.conf.global_settings import AUTH_USER_MODEL, CSRF_TRUSTED_ORIGINS, MEDIA_ROOT, MEDIA_URL, STATICFILES_DIRS
 from core.logging.config import LOGGING
+from django.utils.translation import gettext_lazy as _
+
 
 load_dotenv()
 
@@ -68,6 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -174,9 +177,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "lt"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Europe/Vilnius"
+
+LANGUAGES = [
+    ("lt", _("Lithuanian")),
+    ("en", _("English")),
+]
 
 USE_I18N = True
 

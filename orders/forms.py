@@ -27,3 +27,9 @@ class OrderForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         return validate_real_email(email)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["phone_number"].error_messages["invalid"] = "Neteisingas telefono numeris"
+        self.fields["email"].error_messages["invalid"] = "Neteisingas el. pašto adresas"

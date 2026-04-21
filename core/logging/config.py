@@ -1,47 +1,30 @@
 from pathlib import Path
-from backend.settings import DEBUG
+from django.conf import settings
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
 
-if DEBUG:
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-
-        "formatters": {
-            "color": {
-                "()": "core.logging.formatters.ColorFormatter",
-                "format": "[{levelname}] {asctime} {name}: {message}",
-                "style": "{",
-            },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
+    },
 
-        "handlers": {
-            "console": {
-                "class": "logging.StreamHandler",
-                "formatter": "color",
-            },
-        },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
 
-        "root": {
-            "handlers": ["console"],
-            "level": "INFO",
+if settings.DEBUG:
+    BASE_LOGGING["formatters"] = {
+        "color": {
+            "()": "core.logging.formatters.ColorFormatter",
+            "format": "[{levelname}] {asctime} {name}: {message}",
+            "style": "{",
         },
     }
+    BASE_LOGGING["handlers"]["console"]["formatter"] = "color"
 
-else:
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-
-        "handlers": {
-            "console": {
-                "class": "logging.StreamHandler",
-            },
-        },
-
-        "root": {
-            "handlers": ["console"],
-            "level": "INFO",
-        },
-    }
+LOGGING = BASE_LOGGING

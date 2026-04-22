@@ -4,6 +4,8 @@ Production-ready e-commerce platform built with Django.
 Originally developed for a real client use case and adapted into a public demo for portfolio purposes.
 
 ---
+Live demo: https://django-ecommerce-platform-production.up.railway.app
+---
 
 ## 🚀 Features
 

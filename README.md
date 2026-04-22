@@ -4,21 +4,61 @@ Production-ready e-commerce platform built with Django.
 Originally developed for a real client use case and adapted into a public demo for portfolio purposes.
 
 ---
-Live demo: https://django-ecommerce-platform-production.up.railway.app
----
+## 🚀 Live Demo
 
-## 🚀 Features
+https://django-ecommerce-platform-production.up.railway.app
 
-* 🛒 Product catalog with categories and images
-* 🧺 Cart system (add, update, remove items)
-* 📦 Order management workflow (pending → packed → shipped → completed)
-* 💳 Payment integration (Stripe - demo mode enabled)
-* 🚚 Delivery integration (Omniva / DPD APIs)
-* 🔔 Push notifications system (disabled in demo)
-* 📧 Email notifications
-* 🔐 Authentication (login, register, password reset)
-* 🛠 Manager dashboard for handling orders
 
+## 📦 Features
+
+- Product catalog
+- Shopping cart system
+- Order management workflow
+- Stripe payment integration
+- Delivery API integration (Omniva, DPD)
+- User authentication and profiles
+- Email notifications
+- Custom manager dashboard
+
+
+## 📱 Manager Dashboard
+
+Custom-built panel for managing orders (not Django admin).
+
+- View and update order statuses
+- Track payments and delivery info
+- Designed for real usage scenarios
+- Mobile-friendly interface
+- Can be installed on mobile as a web app (PWA)
+
+
+### 📲 Mobile Access
+
+The manager panel supports installation as a mobile app (PWA), allowing quick access to orders directly from a phone.
+
+
+## 🎯 What this project demonstrates
+
+- Real-world e-commerce backend architecture
+- Order lifecycle and status management
+- Payment processing with Stripe (including failure handling)
+- Integration with external delivery APIs
+- Separation of concerns (cart, orders, payments, users)
+- Scalable and maintainable code structure
+
+Designed to simulate a real-world e-commerce system used in production.
+
+
+## 🧱 Project Structure
+
+- `cart/` – shopping cart logic
+- `orders/` – order creation and lifecycle
+- `payments/` – Stripe integration
+- `products/` – product catalog
+- `users/` – authentication and profiles
+- `manager/` – custom order management panel
+- `notifications/` – email notifications
+  
 ---
 
 ## ⚠️ Demo Version

@@ -18,14 +18,14 @@ __pycache__/
 # ======================
 # Logs
 # ======================
-# *.log
+*.log
 
 # ======================
 # Django
 # ======================
-# db.sqlite3
-# media/
-# staticfiles/
+db.sqlite3
+media/
+staticfiles/
 
 # ======================
 # IDE

@@ -14,6 +14,8 @@ from orders.services import update_order_status
 from orders.utils import order_item_create, get_cart_items_by_order
 import logging
 
+from products.models import Product
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +41,17 @@ def stripe_payment(request, order_id):
                 "quantity": item.quantity,
             }
         )
+
+    if order.delivery_method == "parcel":
+        delivery_product = Product.get_delivery_product()
+        line_items.append({
+            "price_data": {
+                "currency": "eur",
+                "product_data": {"name": delivery_product.name},
+                "unit_amount": int(delivery_product.price_discount() * 100),
+            },
+            "quantity": 1,
+        })
 
     logger.info(f"[AUDIT] Start payment Order={order.id} user={request.user.id if request.user.is_authenticated else 'anon'}")
 

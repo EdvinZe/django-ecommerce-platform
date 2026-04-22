@@ -1,6 +1,7 @@
 from django.contrib import messages
 from cart.models import Cart
 from orders.models import Order, OrderItem
+from products.models import Product
 from users.utils import get_or_create_session_key
 
 
@@ -30,20 +31,21 @@ def order_item_create(cart_items, order):
 
 
 def get_cart_items(request):
+    delivery_product = Product.get_delivery_product()
+
     if request.user.is_authenticated:
-        return Cart.objects.filter(user=request.user)
+        return Cart.objects.filter(user=request.user).exclude(product=delivery_product)
 
     session_key = get_or_create_session_key(request)
-
-    return Cart.objects.filter(session_key=session_key)
-
+    return Cart.objects.filter(session_key=session_key).exclude(product=delivery_product)
 
 def get_cart_items_by_order(order):
+    delivery_product = Product.get_delivery_product()
+
     if order.user:
-        return Cart.objects.filter(user=order.user)
+        return Cart.objects.filter(user=order.user).exclude(product=delivery_product)
 
-    return Cart.objects.filter(session_key=order.session_key)
-
+    return Cart.objects.filter(session_key=order.session_key).exclude(product=delivery_product)
 
 def order_validate_stock(cart_items, request):
     for item in cart_items:

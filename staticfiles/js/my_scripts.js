@@ -216,8 +216,8 @@ $(document).ready(function () {
 
 
   const map = L.map('map').setView([55.1694, 23.8813], 7);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: "&copy; OpenStreetMap contributors"
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap &copy; CartoDB'
   }).addTo(map);
 
   const markersById = {};

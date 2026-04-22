@@ -52,26 +52,19 @@ def cart_required(view_func):
     return _wrapped_view
 
 def ensure_delivery_in_cart(user, session_key):
-
     delivery_product = Product.get_delivery_product()
 
     if user:
-        exists = Cart.objects.filter(
+        Cart.objects.get_or_create(
             user=user,
-            product=delivery_product
-        ).exists()
+            product=delivery_product,
+            defaults={"quantity": 1, "session_key": None}
+        )
     else:
-        exists = Cart.objects.filter(
-            session_key=session_key,
-            product=delivery_product
-        ).exists()
-
-    if not exists:
-        Cart.objects.create(
-            user=user,
+        Cart.objects.get_or_create(
             session_key=session_key,
             product=delivery_product,
-            quantity=1
+            defaults={"quantity": 1, "user": None}
         )
 
 

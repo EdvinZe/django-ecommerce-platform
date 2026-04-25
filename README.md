@@ -1,12 +1,29 @@
 # 🍓 Strawberry E-commerce Platform
 
 Production-ready e-commerce platform built with Django.
-Originally developed for a real client use case and adapted into a public demo for portfolio purposes.
+Originally developed for a real client use case and adapted into a public demo for portfolio purposes. The platform processed real orders in production.
 
 ---
 ## 🚀 Live Demo
 
 https://django-ecommerce-platform-production.up.railway.app
+
+---
+## 📸 Screenshots
+
+### Storefront
+![Home](screenshots/django-ecommerce-platform-production_up_railway_app_.png)
+![Catalog](screenshots/django-ecommerce-platform-production_up_railway_app_catalog_all_.png)
+![Product](screenshots/django-ecommerce-platform-production_up_railway_app_product_braskes_.png)
+
+### Checkout & Payment
+![Cart & Order History](screenshots/orderpanel.png)
+![Omniva Map & Checkout](screenshots/postmats.png)
+![Stripe Payment](screenshots/stripe.png)
+
+### Manager Dashboard
+![Manager Panel](screenshots/managerpanel.png)
+![Order Detail & QR](screenshots/product_manager.png)
 
 
 ## 📦 Features

@@ -112,55 +112,6 @@ adminadmin12345
 * Stripe API
 * Omniva / DPD APIs
 
----
-
-## ⚙️ Setup
-
-```bash
-git clone <repo>
-cd project
-pip install -r requirements.txt
-```
-
----
-
-## 🔑 Environment
-
-Create `.env` based on `.env.example`
-
----
-
-## ▶️ Run locally
-
-```bash
-python manage.py migrate
-python manage.py runserver
-```
-
----
-
-## 🚀 Production run
-
-```bash
-gunicorn backend.wsgi:application
-```
-
----
-
-## 📸 Demo
-
-👉 https://django-ecommerce-platform-production.up.railway.app
-
----
-
-## 📌 Notes
-
-This project demonstrates a real-world backend architecture including:
-
-* scalable order system
-* payment handling logic
-* delivery service integration
-* environment-based configuration (demo vs production)
 
 ---
 

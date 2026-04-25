@@ -12,9 +12,9 @@ https://django-ecommerce-platform-production.up.railway.app
 ## 📸 Screenshots
 
 ### Storefront
-![Home](screenshots/django-ecommerce-platform-production_up_railway_app_.png)
-![Catalog](screenshots/django-ecommerce-platform-production_up_railway_app_catalog_all_.png)
-![Product](screenshots/django-ecommerce-platform-production_up_railway_app_product_braskes_.png)
+![Home](screenshots/django-ecommerce-platform-production.up.railway.app_.png)
+![Catalog](screenshots/django-ecommerce-platform-production.up.railway.app_catalog_all_.png)
+![Product](screenshots/django-ecommerce-platform-production.up.railway.app_product_braskes_.png)
 
 ### Checkout & Payment
 ![Cart & Order History](screenshots/orderpanel.png)

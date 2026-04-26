@@ -1,0 +1,22 @@
+@media screen {
+  .print-area { display: none; }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  .print-area h2 { font-size: 20px; margin-bottom: 12px; }
+  .print-area ul { list-style: none; padding: 0; margin: 0 0 16px 0; }
+  .print-area ul li { font-size: 15px; padding: 4px 0; border-bottom: 1px solid #eee; }
+  .print-area img { width: 140px; height: 140px; display: block; margin: 12px 0; }
+  .print-area .print-tracking { font-size: 13px; color: #444; }
+  @page { margin: 15mm; }
+}

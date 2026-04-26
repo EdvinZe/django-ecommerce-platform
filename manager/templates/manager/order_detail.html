@@ -1,7 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/print.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
+
+<div class="print-area">
+  <h2>Užsakymas #{{ order.id }}</h2>
+  <ul>
+    {% for item in items %}
+      <li>{{ item.name }} &times; {{ item.quantity }}</li>
+    {% endfor %}
+  </ul>
+  {% if shipment %}
+    <img src="{% url 'manager_order_qr' order.id %}" alt="QR">
+    <p class="print-tracking">{{ shipment.tracking_number }}</p>
+  {% endif %}
+</div>
+
 <div class="mgr mt-lg-5">
   <div class="mgr-container mt-5">
 

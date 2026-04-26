@@ -14,6 +14,7 @@ from lockers.models import Shipment
 logger = logging.getLogger(__name__)
 
 
+@manager_required
 def manager_order_qr_view(request, order_id):
     try:
         shipment = Shipment.objects.get(order_id=order_id)
@@ -31,7 +32,7 @@ def manager_order_qr_view(request, order_id):
 
 @manager_required
 def manager_orders_list(request):
-    orders = Order.objects.all().order_by("-created_at")
+    orders = Order.objects.select_related("user").order_by("-created_at")
     push_enabled = PushSubscription.objects.filter(user=request.user).exists()
 
     status = request.GET.get("status")
@@ -97,7 +98,7 @@ def manager_mark_shipped(request, order_id):
         logger.warning(f"[AUDIT] Invalid shipped attempt Order={order.id}")
         return redirect("manager_order_detail", order_id=order.id)
 
-    if not hasattr(order, "shipment"):
+    if not Shipment.objects.filter(order=order).exists():
         logger.warning(f"[AUDIT] Shipment missing Order={order.id}")
         return redirect("manager_order_detail", order_id=order.id)
 
@@ -131,6 +132,12 @@ def manager_bulk_mark_packed(request):
     order_ids = request.POST.getlist("order_ids")
 
     if not order_ids:
+        return redirect("manager_orders_list")
+
+    try:
+        order_ids = [int(oid) for oid in order_ids]
+    except (ValueError, TypeError):
+        logger.warning(f"[AUDIT] Manager={request.user.id} bulk pack invalid ids={order_ids}")
         return redirect("manager_orders_list")
 
     Order.objects.filter(

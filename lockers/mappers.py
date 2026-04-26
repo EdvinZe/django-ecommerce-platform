@@ -117,20 +117,24 @@ def get_dpd_lockers(country):
     )
 
 def lp_express_lockers(country):
-    response = requests.get(
-        "https://www.lpexpress.lt/terminalai",
-        timeout=5,
-    )
+    if country != "LT":
+        return []
 
-    data = response.json()
+    try:
+        response = requests.get(
+            "https://www.lpexpress.lt/terminalai",
+            timeout=5,
+        )
+        response.raise_for_status()
+        data = response.json()
+    except Exception as e:
+        logger.error(f"LP Express request failed: {e}")
+        return []
+
     lockers = []
 
     for item in data:
-
         if not item.get("active", True):
-            continue
-
-        if country != "LT":
             continue
 
         lat = item.get("latitude")
@@ -139,12 +143,17 @@ def lp_express_lockers(country):
         if not lat or not lng:
             continue
 
-        lockers.append({
-            "id": item.get("terminalId"),
-            "lat": float(lat),
-            "lng": float(lng),
-            "name": item.get("name") or "LP EXPRESS",
-            "provider": "lp_express",
-        })
+        try:
+            lockers.append({
+                "id": item.get("terminalId"),
+                "lat": float(lat),
+                "lng": float(lng),
+                "name": item.get("name") or "LP EXPRESS",
+                "provider": "lp_express",
+            })
+        except Exception as e:
+            logger.warning(f"LP Express parsing error: {e}")
+
+    logger.info(f"LP Express lockers fetched: {len(lockers)}")
 
     return lockers

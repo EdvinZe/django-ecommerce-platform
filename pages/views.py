@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render
 from django.views.generic import TemplateView, FormView
 
@@ -8,6 +9,8 @@ from django.contrib import messages
 from .forms import ContactForm
 from notifications.services.manager import email_manager_from_contact_us
 from .services import get_gallery
+
+logger = logging.getLogger(__name__)
 
 
 class AboutUsView(TemplateView):
@@ -34,14 +37,17 @@ class ContactsView(FormView):
 
 
     def form_valid(self, form):
-
         contact_message = form.save()
 
-        
+        try:
+            email_manager_from_contact_us(contact_message)
+        except Exception as e:
+            logger.error(f"Contact email to manager failed: {e}")
 
-        email_manager_from_contact_us(contact_message)
-
-        email_contact_autoreply(contact_message)
+        try:
+            email_contact_autoreply(contact_message)
+        except Exception as e:
+            logger.error(f"Contact autoreply email failed: {e}")
 
         messages.success(
             self.request,

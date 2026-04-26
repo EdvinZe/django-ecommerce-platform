@@ -65,8 +65,6 @@ def get_all_lockers(country):
     logger.info(f"Fetching all lockers for {country}")
 
     omniva = get_omniva_lockers(country)
-    dpd = False
-
 
     lockers = []
 
@@ -74,11 +72,6 @@ def get_all_lockers(country):
         lockers.extend(omniva)
     else:
         logger.warning("Omniva returned 0 lockers")
-
-    if dpd:
-        lockers.extend(dpd)
-    else:
-        logger.warning("DPD returned 0 lockers")
 
     if not lockers:
         logger.error(f"No lockers available for {country}")

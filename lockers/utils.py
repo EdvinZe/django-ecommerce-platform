@@ -3,8 +3,8 @@ from lockers.serializers import OmnivaResponseSerializer
 from lockers.models import Shipment
 import logging
 import base64
+from django.conf import settings
 from .api_configs import DPDConfig
-from backend.settings import SITE_URL
 
 
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ def parse_provider_response(provider, response_json):
         raise ValueError(f"Unknown provider {provider}")
     
 def build_barcode_url(provider, barcode):
-    return f"{SITE_URL}/lockers/shipment/{provider}/{barcode}/"
+    return f"{settings.SITE_URL}/lockers/shipment/{provider}/{barcode}/"
 
 
 def get_dpd_token():

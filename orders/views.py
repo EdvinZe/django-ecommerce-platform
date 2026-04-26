@@ -2,6 +2,7 @@ import logging
 from django.urls import reverse
 from backend import settings
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
 from django.db import transaction
 from cart.utils import cart_required, ensure_delivery_in_cart, remove_delivery_from_cart
@@ -75,31 +76,35 @@ def create_order(request):
                 
                 order = get_existing_unpaid_order(user=user, session_key=session_key)
 
-                if order:
-            
-                    with transaction.atomic():
-                        order_update_object(
-                            form=form, order=order, cart_items=cart_items
-                        )
+                try:
+                    if order:
+                        with transaction.atomic():
+                            order_update_object(
+                                form=form, order=order, cart_items=cart_items
+                            )
 
-                        if order.payment_method == "cash":
-                            order_item_create(cart_items=cart_items, order=order)
-                            order.status = "reserved"
-                            order.save()
-                            
-                elif not order:
-                    with transaction.atomic():
-                        order = order_create_object(
-                            user=user,
-                            session_key=session_key,
-                            form=form,
-                            cart_items=cart_items,
-                        )
+                            if order.payment_method == "cash":
+                                order_item_create(cart_items=cart_items, order=order)
+                                order.status = "reserved"
+                                order.save()
 
-                        if order.payment_method == "cash":
-                            order_item_create(cart_items=cart_items, order=order)
-                            order.status = "reserved"
-                            order.save()
+                    elif not order:
+                        with transaction.atomic():
+                            order = order_create_object(
+                                user=user,
+                                session_key=session_key,
+                                form=form,
+                                cart_items=cart_items,
+                            )
+
+                            if order.payment_method == "cash":
+                                order_item_create(cart_items=cart_items, order=order)
+                                order.status = "reserved"
+                                order.save()
+
+                except ValidationError as e:
+                    messages.warning(request, str(e.message))
+                    return redirect("order_form")
 
                 if order.payment_method == "card" and order.delivery_method == "parcel":
                     ensure_delivery_in_cart(user, session_key)

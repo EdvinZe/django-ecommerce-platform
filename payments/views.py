@@ -1,8 +1,7 @@
 from django.db import transaction
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import stripe
 from django.conf import settings
-from backend.settings import STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET_KEY
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -21,8 +20,13 @@ logger = logging.getLogger(__name__)
 
 
 def stripe_payment(request, order_id):
-    order = Order.objects.get(id=order_id)
-    stripe.api_key = STRIPE_SECRET_KEY
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.status in ["paid", "registered", "completed"]:
+        logger.warning(f"[AUDIT] Stripe session blocked, already paid Order={order.id}")
+        return redirect(f"/payments/success/?order={order.id}")
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
 
     cart_items = get_cart_items_by_order(order)
 
@@ -77,7 +81,7 @@ def stripe_payment(request, order_id):
 def stripe_webhook(request):
     payload = request.body
     sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
-    endpoint_secret = STRIPE_WEBHOOK_SECRET_KEY
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET_KEY
 
     logger.info("[AUDIT] Stripe webhook received")
 
@@ -127,8 +131,11 @@ def stripe_webhook(request):
                 order.save(update_fields=["shipment_requested"])
                 logger.info(f"[AUDIT] Shipment required Order={order.id}")
 
-        email_order_paid(order)
-        logger.info(f"[AUDIT] Order paid email sent Order={order.id}")
+        try:
+            email_order_paid(order)
+            logger.info(f"[AUDIT] Order paid email sent Order={order.id}")
+        except Exception as e:
+            logger.error(f"[AUDIT] Order paid email failed Order={order.id}: {e}")
 
         if need_shipment:
             try:
@@ -163,8 +170,11 @@ def stripe_webhook(request):
         update_order_status(order, "failed")
         logger.info(f"[AUDIT] Order={order.id} marked as FAILED")
 
-        email_payment_failed(order)
-        logger.info(f"[AUDIT] Order failed email sent Order={order.id}")
+        try:
+            email_payment_failed(order)
+            logger.info(f"[AUDIT] Order failed email sent Order={order.id}")
+        except Exception as e:
+            logger.error(f"[AUDIT] Order failed email failed Order={order.id}: {e}")
 
     return HttpResponse(status=200)
 

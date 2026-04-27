@@ -46,10 +46,10 @@ $(document).ready(function () {
       
         if (data.success === false) return;
       
-        // СНАЧАЛА перерисовываем корзину
+
         $("#cart-items-container").html(data.cart_items_html);
       
-        // ПОТОМ обновляем число
+
         if (data.cart_count !== undefined) {
           $("#products-in-cart-count").text(data.cart_count);
         }
@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   
-  /* стрелки */
+
   document.querySelector(".gallery-next-inline").addEventListener("click", function() {
     swiper.slideNext();
   });
